@@ -5,16 +5,28 @@ cache: pip
 dist: xenial
 sudo: required
 
-jobs:
+matrix:
   include:
-  - name: "run test suite with python 3.6"
-    python: 3.6    # 3.6.3  pip  9.0.1
-  - name: "run test suite with python 3.7"
-    python: 3.7    # 3.7.0  pip 10.0.1
+    - sudo: required
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
 
-script:
-  - mkdir test
-  - echo lol > test/file-$(python3 --version | cut -d " " -f2).txt
+install: |
+  set -e
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    docker pull $DOCKER_IMAGE
+  elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    # TODO
+  fi
+
+
+script: |
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/scripts/build-linux-wheels.sh
+  elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    # TODO
+  fi
 
 
 deploy:
@@ -22,7 +34,7 @@ deploy:
   api_key:
     secure: MLqz0miMOy/SJKEbOdNBmvAVxykc+4YQcnu/T5hAlTMNTseVK26j0Aazbk8DjcOIhOuwITeiJs2OqxQWsqkAG5+VY7U6bCcEWOhoICub5WJqDqMRFPYCOQ+iCLVkuYpfnmiZT8khjSsYTHKVO6VY2ZDJEQ91CIx2EVfXTLk/nsRrqFF5kmsVdLXASwLhmHGbuXES/EfQorhPet05hCPxdxtAPRjDfVKRcjTQXDMogqctMfJkS2C4Qzcy72vmpB/EeR6yxXTYKz5yCDZn+aqMBADUrYXqkdktxeSN0sFa/BMmdXBQ0EOXIrZUN18TSGL59VhQvkie4FkF924gEiIaMQuZgubUjXVCRUIHzXFdnbkn7zZqTpF+PciPv7ZARBwwDXLacJRqAQdoHm+Ey51JcMtP2rFJk4GbONbZbRYyNGSTp7Acqq8mLoraKcmLNhs40+wUeHsHOQM0k2t52SgKmmAanJQH1tlTX7aVJO1mljP4KOBoOci/FfDvK3bliWLCuKPlacJGpmqUIGBZtgwnK5mPYS2hZmMXo1U52Y1V5N9FEtR2apSkaCa1Kv74GHiFlUcigDgW7/FevMbFSfvxpoYpU7trgSQYH25RO1MYK1A+/0XpDb3bKUcn7iSQUwHqcpxD3fowy57hl0SJiQqshPBlYfG+9FWa/95+desUL7o=
   file_glob: true
-  file: test/*.txt
+  file: wheelhouse/*.whl
   skip_cleanup: true
   on:
     tags: true
