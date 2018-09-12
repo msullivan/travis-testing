@@ -23,4 +23,4 @@ deploy:
   file: test/*.txt
   skip_cleanup: true
   on:
-    repo: msullivan/travis-testing
+    tags: true
