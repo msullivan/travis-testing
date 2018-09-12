@@ -1,9 +1,11 @@
 #!/bin/bash -eux
 
 # Unpack a modern clang version
-(cd / && curl https://github.com/msullivan/travis-testing/releases/download/llvm/llvm-centos-5.tar.gz | tar xf -)
+(cd / && curl -L https://github.com/msullivan/travis-testing/releases/download/llvm/llvm-centos-5.tar.gz | tar xf -)
 
 cd /io/
+
+pip install -r external/mypy/test-requirements.txt
 
 # Compile wheels
 for PYBIN in /opt/python/*/bin; do
