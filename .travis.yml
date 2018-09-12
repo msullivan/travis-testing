@@ -3,6 +3,7 @@ if: tag IS present
 matrix:
   include:
     - os: linux
+      language: generic
       sudo: required
       services:
         - docker
@@ -10,7 +11,7 @@ matrix:
     - os: osx
       osx_image: xcode8.3
       language: generic
-      env: PYTHONVERSION=3.6.5
+      env: PYTHONVERSION=3.6
 
 install: |
   set -e
