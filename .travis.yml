@@ -1,9 +1,25 @@
-script: echo "Lol" > test_file.txt
+language: python
+# cache package wheels (1 cache per python version)
+cache: pip
+# newer python versions are available only on xenial (while some older only on trusty) Ubuntu distribution
+dist: xenial
+sudo: required
+
+jobs:
+  - name: "run test suite with python 3.6"
+    python: 3.6    # 3.6.3  pip  9.0.1
+  - name: "run test suite with python 3.7"
+    python: 3.7    # 3.7.0  pip 10.0.1
+
+script: mkdir test
+script: echo lol > test/file-$(python3 --version | cut -d " " -f2).txt
+
+
 deploy:
   provider: releases
   api_key:
     secure: MLqz0miMOy/SJKEbOdNBmvAVxykc+4YQcnu/T5hAlTMNTseVK26j0Aazbk8DjcOIhOuwITeiJs2OqxQWsqkAG5+VY7U6bCcEWOhoICub5WJqDqMRFPYCOQ+iCLVkuYpfnmiZT8khjSsYTHKVO6VY2ZDJEQ91CIx2EVfXTLk/nsRrqFF5kmsVdLXASwLhmHGbuXES/EfQorhPet05hCPxdxtAPRjDfVKRcjTQXDMogqctMfJkS2C4Qzcy72vmpB/EeR6yxXTYKz5yCDZn+aqMBADUrYXqkdktxeSN0sFa/BMmdXBQ0EOXIrZUN18TSGL59VhQvkie4FkF924gEiIaMQuZgubUjXVCRUIHzXFdnbkn7zZqTpF+PciPv7ZARBwwDXLacJRqAQdoHm+Ey51JcMtP2rFJk4GbONbZbRYyNGSTp7Acqq8mLoraKcmLNhs40+wUeHsHOQM0k2t52SgKmmAanJQH1tlTX7aVJO1mljP4KOBoOci/FfDvK3bliWLCuKPlacJGpmqUIGBZtgwnK5mPYS2hZmMXo1U52Y1V5N9FEtR2apSkaCa1Kv74GHiFlUcigDgW7/FevMbFSfvxpoYpU7trgSQYH25RO1MYK1A+/0XpDb3bKUcn7iSQUwHqcpxD3fowy57hl0SJiQqshPBlYfG+9FWa/95+desUL7o=
-  file: test_file.txt
+  file: test/*.txt
   skip_cleanup: true
   on:
     repo: msullivan/travis-testing
