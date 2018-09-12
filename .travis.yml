@@ -11,8 +11,9 @@ jobs:
   - name: "run test suite with python 3.7"
     python: 3.7    # 3.7.0  pip 10.0.1
 
-script: mkdir test
-script: echo lol > test/file-$(python3 --version | cut -d " " -f2).txt
+script:
+  - mkdir test
+  - echo lol > test/file-$(python3 --version | cut -d " " -f2).txt
 
 
 deploy:
