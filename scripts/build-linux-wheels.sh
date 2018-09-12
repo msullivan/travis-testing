@@ -11,7 +11,7 @@ for PYBIN in /opt/python/*/bin; do
     if [ $(echo "${PYBIN}" | grep -o '[[:digit:]][[:digit:]]' | head -n 1) -ge 37 ]; then
 	# only builds on Python 3.5 and newer
 	"${PYBIN}/pip3" install -r /io/mypyc/external/mypy/test-requirements.txt
-	PYTHONPATH=/mypyc CC=/opt/llvm/bin/clang MYPYC_OPT_LEVEL=0 "${PYBIN}/python3" setup.py --use-mypyc bdist_wheel
+	PYTHONPATH=/io/mypyc CC=/opt/llvm/bin/clang MYPYC_OPT_LEVEL=0 "${PYBIN}/python3" setup.py --use-mypyc bdist_wheel
   fi
 done
 

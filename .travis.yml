@@ -11,7 +11,7 @@ matrix:
     - os: osx
       osx_image: xcode8.3
       language: generic
-      env: PYTHONVERSION=3.6
+      env: PYTHONVERSION=3.6.3
 
 install: |
   set -e
@@ -25,6 +25,8 @@ install: |
     # Manually set pyenv variables per https://pythonhosted.org/CodeChat/.travis.yml.html
     export PYENV_VERSION=$PYTHONVERSION
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
+
+    pyenv install --list
   fi
 
 
