@@ -10,7 +10,7 @@ matrix:
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
     - os: osx
       osx_image: xcode8.3
-      language: generic
+      python: "3.6"
       env: PYTHONVERSION=3.6.3
 
 install: |
@@ -18,15 +18,16 @@ install: |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     docker pull $DOCKER_IMAGE
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    # Attempt to install, skipping if version already exists.
-    pyenv install $PYTHONVERSION -s
-    # Regenerate shims
-    pyenv rehash
-    # Manually set pyenv variables per https://pythonhosted.org/CodeChat/.travis.yml.html
-    export PYENV_VERSION=$PYTHONVERSION
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
+    true
+    # # Attempt to install, skipping if version already exists.
+    # pyenv install $PYTHONVERSION -s
+    # # Regenerate shims
+    # pyenv rehash
+    # # Manually set pyenv variables per https://pythonhosted.org/CodeChat/.travis.yml.html
+    # export PYENV_VERSION=$PYTHONVERSION
+    # export PATH="/Users/travis/.pyenv/shims:${PATH}"
 
-    pyenv install --list
+    # pyenv install --list
   fi
 
 
