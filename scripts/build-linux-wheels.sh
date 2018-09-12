@@ -3,16 +3,15 @@
 # Unpack a modern clang version
 (cd / && curl -L https://github.com/msullivan/travis-testing/releases/download/llvm/llvm-centos-5.tar.gz | tar xf -)
 
-cd /io/
-
-pip install -r external/mypy/test-requirements.txt
+cd /io/mypy
 
 # Compile wheels
 for PYBIN in /opt/python/*/bin; do
     #  if [ $(echo "${PYBIN}" | grep -o '[[:digit:]][[:digit:]]' | head -n 1) -ge 35 ]; then
     if [ $(echo "${PYBIN}" | grep -o '[[:digit:]][[:digit:]]' | head -n 1) -ge 37 ]; then
-      # only builds on Python 3.5 and newer
-      PYTHONPATH=/mypyc CC=/opt/llvm/bin/clang MYPYC_OPT_LEVEL=0 "${PYBIN}/python3" setup.py --use-mypyc bdist_wheel
+	# only builds on Python 3.5 and newer
+	"${PYBIN}/python3" install -r /io/mypyc/external/mypy/test-requirements.txt
+	PYTHONPATH=/mypyc CC=/opt/llvm/bin/clang MYPYC_OPT_LEVEL=0 "${PYBIN}/python3" setup.py --use-mypyc bdist_wheel
   fi
 done
 
