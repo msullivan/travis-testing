@@ -28,6 +28,7 @@ install: |
 
     pyenv install --list
 
+    pip install wheel
     pip install -r mypy/test-requirements.txt
   fi
 
