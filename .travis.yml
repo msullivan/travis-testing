@@ -1,37 +1,26 @@
 if: tag IS present
 
+sudo: required
+services: docker
+
 matrix:
   include:
     - os: linux
       language: generic
-      sudo: required
-      services:
-        - docker
-      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+      env: MB_PYTHON_VERSION=3.7
     - os: osx
       language: generic
       env: MB_PYTHON_VERSION=3.7
 
 before_install: |
-  set -e
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    docker pull $DOCKER_IMAGE
-  elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    source multibuild/common_utils.sh
-    source multibuild/travis_steps.sh
-    before_install
-  fi
+  source multibuild/common_utils.sh
+  source multibuild/travis_steps.sh
+  before_install
 
 
 install: |
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/scripts/build-linux-wheels.sh
-  elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    export MYPY_USE_MYPYC=1
-    export PYTHONPATH="$PWD/mypyc:$PYTHONPATH"
-    clean_code mypy HEAD
-    build_bdist_wheel mypy x86_64
-  fi
+  clean_code mypy HEAD
+  build_bdist_wheel mypy x86_64
 
 
 deploy:
