@@ -23,7 +23,7 @@ before_install: |
 
 install: |
   clean_code mypy HEAD
-  build_bdist_wheel mypy x86_64
+  build_wheel mypy x86_64
 
 
 deploy:
