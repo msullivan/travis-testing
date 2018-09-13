@@ -15,6 +15,7 @@ matrix:
       env: MB_PYTHON_VERSION=3.7
 
 before_install: |
+  set -x
   source multibuild/common_utils.sh
   source multibuild/travis_steps.sh
   before_install
