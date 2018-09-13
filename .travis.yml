@@ -30,7 +30,7 @@ install: |
     export MYPY_USE_MYPYC=1
     export PYTHONPATH="$PWD/mypyc:$PYTHONPATH"
     clean_code mypy HEAD
-    build_wheel mypy x86_64
+    build_bdist_wheel mypy x86_64
   fi
 
 
