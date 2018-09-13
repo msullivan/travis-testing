@@ -27,6 +27,8 @@ install: |
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
 
     pyenv install --list
+
+    pip install -r mypy/test-requirements.txt
   fi
 
 
