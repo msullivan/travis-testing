@@ -35,17 +35,7 @@ script: |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/scripts/build-linux-wheels.sh
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    # "Fix" Travis issues #6307 #6522 #9486
-    shell_session_update() { :; };
-    set -e
-    echo "YOOO 1"
-    ls -l
-    echo "YOOO 1.5"
-    cd mypy
-    echo "YOOO 2"
-    PYTHONPATH=../mypyc MYPYC_OPT_LEVEL=0 "${PYBIN}/python3" setup.py --use-mypyc bdist_wheel
-    echo "YOOO 3"
-    mv dist ../wheelhouse
+    scripts/build-osx-wheels.sh
   fi
 
 
