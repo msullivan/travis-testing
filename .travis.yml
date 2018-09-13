@@ -10,6 +10,7 @@ matrix:
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
     - os: osx
       osx_image: xcode8.3
+      language: python
       python: "3.6"
       env: PYTHONVERSION=3.6.3
 
