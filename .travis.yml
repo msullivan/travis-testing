@@ -9,35 +9,30 @@ matrix:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
     - os: osx
-      osx_image: xcode10
       language: generic
-      env: PYTHONVERSION=3.6.5
+      env: MB_PYTHON_VERSION=3.7
 
-install: |
+before_install: |
   set -e
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     docker pull $DOCKER_IMAGE
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    # # Attempt to install, skipping if version already exists.
-    pyenv install $PYTHONVERSION -s
-    # Regenerate shims
-    pyenv rehash
-    # Manually set pyenv variables per https://pythonhosted.org/CodeChat/.travis.yml.html
-    export PYENV_VERSION=$PYTHONVERSION
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
+    source multibuild/common_utils.sh
+    source multibuild/travis_steps.sh
+    before_install
 
-    pyenv install --list
-
-    pip install wheel
     pip install -r mypy/test-requirements.txt
   fi
 
 
-script: |
+install: |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/scripts/build-linux-wheels.sh
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     scripts/build-osx-wheels.sh
+    export MYPY_USE_MYPYC=1
+    export PYTHONPATH="$PWD/mypyc:$PYTHONPATH"
+    build_wheel mypy x86_64
   fi
 
 
