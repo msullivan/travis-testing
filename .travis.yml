@@ -35,6 +35,8 @@ script: |
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/scripts/build-linux-wheels.sh
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    # "Fix" Travis issues #6307 #6522 #9486
+    shell_session_update() { :; };
     set -e
     echo "YOOO 1"
     ls -l
