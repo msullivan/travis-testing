@@ -3,4 +3,5 @@ function pre_build {
 }
 
 function run_tests {
+    true
 }
