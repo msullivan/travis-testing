@@ -1,6 +1,7 @@
 #!/bin/bash -eux
 
 set -e
+pyenv install --list
 echo "YOOO 1"
 ls -l
 echo "YOOO 1.5"
