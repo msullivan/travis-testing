@@ -33,7 +33,7 @@ install: |
   # Output something every 10 minutes or Travis kills the job
   while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/scripts/build-linux-wheels.sh
+    docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/build-linux-wheels.sh
   elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     export MYPY_USE_MYPYC=1
     export MYPYC_OPT_LEVEL=3
